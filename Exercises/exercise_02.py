@@ -76,5 +76,5 @@ my_list = [0, 1, 2, 3, 4, 5]
 print(first_elements(my_list,2))
 print(first_element(my_list,2))
 print(n_elements(my_list, 2, 3))
-print(count_letters('sssasdasdss'))
+print(count_letters('Priyanka'))
 print(protein_wight('ACDEF'))
