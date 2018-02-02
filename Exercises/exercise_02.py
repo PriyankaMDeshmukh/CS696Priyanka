@@ -33,12 +33,9 @@ def n_elements(my_list, start, n):
     :param n: an integer greater than 0
     :return: a list of length n
     """
-    count =0
-    for element in my_list:
 
-        if element==start:
-            return my_list[count:n+count]
-        count+=1
+    return my_list[start:start+n]
+
 
 def count_letters(s):
     """
