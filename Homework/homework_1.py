@@ -199,8 +199,8 @@ def fastq_to_fasta(file_name, new_name=None):
     """
 
     newFileName=new_name
-    print(newFileName)
-    print(file_name)
+    # print(newFileName)
+    # print(file_name)
     if new_name!='None':
         newFileName=file_name.replace('.fastq','.fasta')
     with open(file_name,'r') as fastqFile:
