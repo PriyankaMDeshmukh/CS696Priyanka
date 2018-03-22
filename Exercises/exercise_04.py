@@ -25,7 +25,7 @@ def rc(dna):
     #     rc_dna += comp_dict[char]
     #
     # return rc_dna[::-1]
-    return ''.join(comp_dict[rc_dna] for rc_dna in dna[::-1]) #join used to convert list to string
+    return ''.join([comp_dict[rc_dna] for rc_dna in dna[::-1]]) #join used to convert list to string
 
 
 # print(rc("CCCTTTCCCAAA"))
