@@ -49,10 +49,10 @@ class String_Aligner:
         :return: a non negative integer
         """
         count=0
-        if len(self.s1) == len(self.s1):
-            for i in range(0, len(self.s1)):
-                if self.s1[i]!=self.s2[i]:
-                    count+=1
+        for i in range(0, min(len(self.s1),len(self.s2))):
+            if self.s1[i]!=self.s2[i]:
+                count+=1
+        count+=abs(len(self.s1)-len(self.s2))
         return count
 
 
@@ -93,8 +93,13 @@ class String_Aligner:
         :return: a list of lists
         """
         empty_matrix = self.empty_matrix() # Building on the previous definition, this will give you an empty matrix
-
-        return
+        for i in range(len(self.s1) + 1):
+            for j in range(len(self.s2) + 1):
+                if i==0:
+                    empty_matrix[i][j]=-j
+                elif j==0:
+                    empty_matrix[i][j] = -i
+        return empty_matrix
 
     def needleman_wunsch_fill(self):
         """
@@ -121,6 +126,8 @@ class String_Aligner:
 
         matrix = self.init_needleman_wunsch_matrix() # Building on the previous definition
 
+
+
         def score_cell(i,j):
             """
             This is our first example of a nested definition. This scoreing definition will return the score of
@@ -136,7 +143,21 @@ class String_Aligner:
             :param j: integer, the inner list index (s2)
             :return: integer
             """
-            return
+            Match= + 1
+            Mismatch =- 1
+            Insertion_Deletion =- 1
+            if self.s1[i-1]==self.s2[j-1]:
+                upper_left= matrix[i-1][ j-1]+Match
+            else:
+                upper_left = matrix[i - 1][j - 1] + Mismatch
+            up = matrix[i - 1][j ]+Insertion_Deletion
+            left = matrix[i][j - 1]+Insertion_Deletion
+            return max(up,left,upper_left)
+
+        for i in range(1, len(self.s1) + 1):
+            for j in range(1, len(self.s2) + 1):
+                matrix[i][j]=score_cell(i, j)
+        return matrix
 
     def smith_waterman_fill(self):
         """
@@ -179,7 +200,22 @@ class String_Aligner:
             :param j: integer, the inner list index
             :return: integer
             """
-            return
+            Match = + 1
+            Mismatch = - 1
+            Insertion_Deletion = - 1
+            if self.s1[i - 1] == self.s2[j - 1]:
+                upper_left = matrix[i - 1][j - 1] + Match
+            else:
+                upper_left = matrix[i - 1][j - 1] + Mismatch
+            up = matrix[i - 1][j] + Insertion_Deletion
+            left = matrix[i][j - 1] + Insertion_Deletion
+            return max(up, left, upper_left,0)
+
+        for i in range(1, len(self.s1) + 1):
+            for j in range(1, len(self.s2) + 1):
+                matrix[i][j] = score_cell(i, j)
+        return matrix
+
 
 """
 These are general string functions outside of the String Alignment Class (notice they start without any indentation)
@@ -199,7 +235,11 @@ def is_dna(string):
     is_dna("CCCAAATTTGGGXXX") should return False
     :return: Boolean
     """
-    return
+    dna=set('CTAG')
+
+    return all([True if i in dna else False for i in string])
+# print(is_dna("CCCAAATTTGGG")) #should return True
+# print(is_dna("CCCAAATTTGGGXXX")) #should return False
 
 def is_rna(string):
     """
@@ -210,8 +250,10 @@ def is_rna(string):
     is_dna("CCCAAAUUUGGGXXX") should return False
     :return: Boolean
     """
-    return
-
+    rna = set('CUAG')
+    return all([True if i in rna else False for i in string])
+# print(  is_rna("CCCAAAUUUGGG")) #should return True
+# print(   is_rna("CCCAAAUUUGGGXXX")) # should return False)
 
 def is_protein(string):
     """
@@ -223,7 +265,10 @@ def is_protein(string):
     is_dna("XPLNNO") should return False
     :return: Boolean
     """
-    return
+    protein = set('ARNDCQEGHIKLMFPSTWYV')
+    return all([True if i in protein else False for i in string])
+# print(is_protein("XPLNNO") ) #should return False
+# print(is_protein("ARQGHI")) #should return True
 
 
 """
@@ -259,6 +304,7 @@ def get_filesize(string):
     :return: a float
     """
     return float(re.findall("size=\"(.*?)\"", string)[0])/1000000000
+    # return float(re.search("size=\"(.*?)\"",get_sra_xml(string))[1])/1000000000 this can also be used
 
 
 def get_protein_fasta(uniprot_id):
@@ -275,8 +321,16 @@ def get_protein_fasta(uniprot_id):
     url =  ur.urlopen("http://www.uniprot.org/uniprot/{}.fasta".format(uniprot_id)).read().decode()
     return ''.join(re.split("\n", url)[1:])
 
-x=String_Aligner('ABCDxcv','AACDVCX')
-print(x.hamming_dist())
-get_sra_xml('SRR3403834')
-get_filesize(get_sra_xml('SRR3403834'))
-get_protein_fasta('P69892')
+# x=String_Aligner('ABC','ABCD')
+# # print(x.empty_matrix())
+# # x.init_needleman_wunsch_matrix()
+# print("init_needleman_wunsch_matrix",x.init_needleman_wunsch_matrix())
+#
+# print("hamming",x.hamming_dist())
+# # get_sra_xml('SRR3403834')
+# # get_filesize(get_sra_xml('SRR3403834'))
+# # get_protein_fasta('P69892')
+# y=String_Aligner('AABBCCDD','AAXXXCDD')
+# z=String_Aligner('AABBCCDD','XAABBCCDD')
+# print("yhamming",y.hamming_dist())
+# print("zhamming",z.hamming_dist())
