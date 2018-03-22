@@ -200,9 +200,9 @@ class String_Aligner:
             :param j: integer, the inner list index
             :return: integer
             """
-            Match = + 1
-            Mismatch = - 1
-            Insertion_Deletion = - 1
+            Match = + 3
+            Mismatch = - 3
+            Insertion_Deletion = -2
             if self.s1[i - 1] == self.s2[j - 1]:
                 upper_left = matrix[i - 1][j - 1] + Match
             else:
