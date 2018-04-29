@@ -29,3 +29,59 @@ For this exercise you will be writing a class for several different generator fu
         Gens(2).triple_half() -> 2, 6, 3, 9, 4.5, 13.5, ...
 
 """
+class Gens:
+
+    def __init__(self,start=1):
+        self.start=start
+
+    def __str__(self):
+        return "Start value for generators class is: {}".format(self.start)
+
+    def double(self):
+        i = self.start
+        yield i
+        while(True):
+            yield i*2
+            i=i*2
+
+    def fib(self):
+        fib1=0
+        fib2=1
+        while True:
+            yield fib2
+            temp=fib1
+            fib1=fib2
+            fib2=temp+fib2
+
+    def linear(self,n):
+        num=self.start
+        yield num
+        while True:
+            num=num+n
+            yield num
+
+    def exponential(self,n):
+        num = self.start
+        yield num
+        while True:
+            num = num**n
+            yield num
+
+    def sequence(self,list):
+        while True:
+            for i in list:
+                yield i
+
+    def triple_half(self):
+        num=self.start
+        yield num
+        while True:
+            yield num*3
+            num=num*3
+            yield num/2
+            num=num/2
+
+
+
+
+
