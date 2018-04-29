@@ -52,6 +52,9 @@ def compute(**kwargs):
             return result
     else:
         return "Please input only integers"
+print(compute(input = [0,1,2,3],action='mean', return_float=True))
+print(compute(input = [0,1,2,3],action='sum'))
+print(compute(input = [0,1,2,3],action='sum', return_float=True))
 
 
 if __name__ == '__main__':

@@ -97,6 +97,7 @@ def multiple_proteins_from_rna(rna):
     #
     # return protein_list
     protein = [C2AA[rna[i:i + 3]] for i in range(0, len(rna), 3)]
+    print(protein)
     return [''.join(protein)[i:] for i, char in enumerate(''.join(protein)) if char == "M"]
 
 

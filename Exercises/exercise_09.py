@@ -3,7 +3,7 @@ Exercise 9
 
 
 1) Write a decorator function that prints the:
-     - real world time taken to run the function,
+     - real world time taken to  run the function,
      - process time used to run the function, and
      - size of the return value (using sys.getsizeof())
 
@@ -33,3 +33,72 @@ import numpy
 import pandas
 import time
 import math
+
+def decorator(def_in_inner_def):
+    def inner_def():
+        t0 = time.time()
+        p0=time.process_time()
+        def_result = def_in_inner_def()
+        p1=time.process_time()
+        t1 = time.time()
+        print("'{}' finished in {} seconds".format(def_in_inner_def.__name__, t1 - t0))
+        print("'{}' process finished in {} seconds".format(def_in_inner_def.__name__, p1 - p0))
+        print(sys.getsizeof(def_result))
+        return def_result
+    return inner_def
+
+@decorator
+def for_loop():
+    x = []
+    for i in range(1,1000001):
+        x.append(i)
+    return x
+
+@decorator
+def list_comp():
+    return [i for i in range(1, 1000001)]
+
+@decorator
+def numpy_list():
+    return numpy.arange(1, 1000001)
+
+@decorator
+def pandas_list():
+    return pandas.DataFrame([i for i in range(1,1000001)])
+
+@decorator
+def generator_list():
+    return (i for i in range(1, 1000001))
+
+@decorator
+def for_loop_log():
+    return numpy.log10(for_loop())
+
+@decorator
+def list_comp_log():
+    return numpy.log10(list_comp())
+
+@decorator
+def numpy_list_log():
+    return numpy.log10(numpy_list())
+
+@decorator
+def pandas_list_log():
+    return numpy.log10(pandas_list())
+
+@decorator
+def generator_list_log():
+    x=generator_list()
+    return (numpy.log10(i) for i in x)
+
+
+for_loop()
+list_comp()
+numpy_list()
+pandas_list()
+generator_list()
+for_loop_log()
+list_comp_log()
+numpy_list_log()
+pandas_list_log()
+generator_list_log()

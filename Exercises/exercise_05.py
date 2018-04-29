@@ -109,14 +109,14 @@ def main():
     # In this following example of list comprehension, we process the text above into a list.
     # The "if word" check at the end, will return false if word is an empty string
     word_list = [word.lower().replace('\n','') for word in beatles.split(' ') if word]
-
+    print(word_list)
     prevWord = None
 
     for eachWord in word_list:
 
         if not eachWord in Node.node_dictionary:
             Node.node_dictionary[eachWord] = Node(eachWord)
-
+        print(Node.node_dictionary['she'].next)
         if prevWord:
             Node.node_dictionary[prevWord].next.append(eachWord)
 
